@@ -2,7 +2,7 @@ import { useState } from "react";
 import MovieList from "../../components/MovieList/MovieList";
 import { fetchSearchMovie } from "../../services/api";
 
-const MoviePage = () => {
+const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState("");
 
@@ -20,4 +20,4 @@ const MoviePage = () => {
     </div>
   );
 };
-export default MoviePage;
+export default MoviesPage;

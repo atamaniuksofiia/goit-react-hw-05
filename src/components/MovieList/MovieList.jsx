@@ -4,7 +4,14 @@ const MovieList = ({ movies }) => (
   <ul>
     {movies.map((movie) => (
       <li key={movie.id}>
-        <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+        <Link
+          to={{
+            pathname: `/movies/${movie.id}`,
+            state: { from: "movieList" },
+          }}
+        >
+          {movie.title}
+        </Link>
       </li>
     ))}
   </ul>
