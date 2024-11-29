@@ -5,29 +5,35 @@ import { useSearchParams } from "react-router-dom";
 
 const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState("");
-  const searchQuery = searchParams.get("query") || "";
+
+  const queryInUrl = searchParams.get("query") || "";
 
   useEffect(() => {
     const fetchData = async () => {
-      if (searchQuery || query) {
-        const data = await fetchSearchMovie(searchQuery || query);
-        setMovies(data);
-      }
+      const data = await fetchSearchMovie(queryInUrl);
+      setMovies(data);
     };
-    fetchData();
-  }, [searchQuery, query]);
+
+    if (queryInUrl) {
+      fetchData();
+    }
+  }, [queryInUrl]);
 
   const handleSearch = () => {
-    fetchSearchMovie(query)
-      .then(setMovies)
-      .catch((error) => console.error("Error fetching movies:", error));
+    if (query) {
+      setSearchParams({ query });
+    }
   };
 
   return (
     <div>
-      <input value={query} onChange={(e) => setQuery(e.target.value)} />
+      <input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search for movies"
+      />
       <button onClick={handleSearch}>Search</button>
       <MovieList movies={movies} />
     </div>
