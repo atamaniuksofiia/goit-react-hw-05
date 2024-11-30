@@ -7,7 +7,7 @@ const MovieList = ({ movies }) => {
     <ul>
       {movies.map((movie) => (
         <li key={movie.id}>
-          <Link to={`/movies/${movie.id}`} state={{ from: location }}>
+          <Link to={`/movies/${movie.id}`} state={{ from: location.pathname }}>
             {movie.title}
           </Link>
         </li>
