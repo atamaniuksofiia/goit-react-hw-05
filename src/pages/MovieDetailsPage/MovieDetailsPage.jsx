@@ -1,19 +1,12 @@
-import { Suspense, useEffect, useState } from "react";
-import {
-  Link,
-  Outlet,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { Suspense, useEffect, useRef, useState } from "react";
+import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import { fetchMovieDetails } from "../../services/api";
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const location = useLocation();
-  const goBackLink = location.state?.from || "/movie";
-  const navigate = useNavigate();
+  const goBackLink = useRef(location.state?.from || "/movies");
 
   useEffect(() => {
     fetchMovieDetails(movieId)
@@ -26,7 +19,8 @@ const MovieDetailsPage = () => {
   if (!movie) return <p>Loading...</p>;
   return (
     <>
-      <button onClick={() => navigate(goBackLink)}>Go back</button>
+      <Link to={goBackLink.current}>Go back</Link>
+
       <h1>{movie.title}</h1>
       <p>{movie.overview}</p>
       <Link to="cast">Cast</Link>
